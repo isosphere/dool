@@ -78,6 +78,7 @@ class Options:
         self.netlist       = None
         self.swaplist      = None
         self.color         = None
+        self.colorinvert   = None
         self.update        = True
         self.header        = True
         self.output        = False
@@ -109,7 +110,7 @@ class Options:
             'all'      , 'all-plugins', 'ascii'   , 'bits'   , 'bw'     , 'bytes'  , 'black-on-white', 'color'  ,
             'color16'  , 'defaults'   , 'debug'   , 'devel'  , 'display', 'dstat'  , 'filesystem'    , 'float'  ,
             'full'     , 'help'       , 'integer' , 'list'   , 'mods'   , 'modules', 'more'          , 'nocolor',
-            'noheaders', 'noupdate'   , 'profile' , 'version', 'vmstat' ,
+            'noheaders', 'noupdate'   , 'profile' , 'version', 'vmstat' , 'color-invert'
         ]
 
         param_opts = [
@@ -234,6 +235,8 @@ class Options:
                 self.use_ascii = True
             elif opt in ['--bw', '--black-on-white', '--blackonwhite']:
                 self.blackonwhite = True
+            elif opt in ['--color-invert']:
+                self.colorinvert = True
             elif opt in ['--color']:
                 self.color = 256
                 self.update = True
@@ -470,6 +473,7 @@ Dool options:
   --bw, --black-on-white   change colors for white background terminal
   --color                  force 256 colors
   --color16                force 16 colors
+  --colorinvert            color scales are inverted (high is red, low is green)
   --nocolor                disable colors
   --noheaders              disable repetitive headers
   --noupdate               disable intermediate updates
@@ -1810,6 +1814,29 @@ def set_theme():
                           color['darkcyan'], color['black'], color['red'], color['green']),
             'colors_hi' : (color['red'], color['magenta'], color['green'], color['blue'],
                           color['cyan'], color['darkgray'], color['darkred'], color['darkgreen']),
+        }
+    # red means high, green means low
+    elif op.colorinvert:
+        theme = {
+            'title'     : color['darkblue'],
+            'subtitle'  : color['blue'] + ansi['underline'],
+            'frame'     : color['darkblue'],
+            'subframe'  : color['blue'],
+            'default'   : ansi['default'],
+            'error'     : color['white'] + color['redbg'],
+            'roundtrip' : color['darkblue'],
+            'debug'     : color['darkred'],
+            'input'     : color['darkgray'],
+            'done_lo'   : color['white'],
+            'done_hi'   : color['gray'],
+            'text_lo'   : color['gray'],
+            'text_hi'   : color['darkgray'],
+            'unit_lo'   : color['gray'],
+            'unit_hi'   : color['darkgray'],
+            'colors_lo' : tuple(reversed((color['red'], color['yellow'], color['green'], color['blue'],
+                          color['cyan'], color['white'], color['darkred'], color['darkgreen']))),
+            'colors_hi' : tuple(reversed((color['darkred'], color['darkyellow'], color['darkgreen'], color['darkblue'],
+                          color['darkcyan'], color['gray'], color['red'], color['green']))),
         }
     else:
         theme = {
