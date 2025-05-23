@@ -1833,11 +1833,10 @@ def set_theme():
             'text_hi'   : color['darkgray'],
             'unit_lo'   : color['gray'],
             'unit_hi'   : color['darkgray'],
-            'colors_lo' : tuple(reversed((color['red'], color['yellow'], color['green'], color['blue'],
-                          color['cyan'], color['white'], color['darkred'], color['darkgreen']))),
-            'colors_hi' : tuple(reversed((color['darkred'], color['darkyellow'], color['darkgreen'], color['darkblue'],
-                          color['darkcyan'], color['gray'], color['red'], color['green']))),
+            'colors_lo' : tuple(reversed((color['red'], color['darkred'], color['yellow'], color['cyan'],
+                          color['blue'], color['green'], color['darkgreen'], color['white']))),            
         }
+        theme['colors_hi'] = theme['colors_lo']
     else:
         theme = {
             'title'     : color['darkblue'],
