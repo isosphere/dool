@@ -33,7 +33,7 @@ if (force_user_install):
     am_root            = False
 
 # Glob the files we need to install
-binaries = glob.glob(base_dir + "/dool")
+binaries = glob.glob(base_dir + "/dool/__init__.py")
 plugins  = glob.glob(base_dir + "/plugins/*.py")
 manpages = glob.glob(base_dir + "/docs/dool.1")
 homedir  = os.path.expanduser("~/")
@@ -49,7 +49,7 @@ def main():
         manpage_dir = "/usr/share/man/man1/"
 
         print("Installing binaries to %s" % color(15, bin_dir))
-        copy_files(binaries, bin_dir, 0o755)
+        copy_files(binaries, bin_dir, 0o755, dest_names=['dool'])
 
         print("Installing plugins  to %s" % color(15, plugin_dir))
         copy_files(plugins , plugin_dir, 0o644)
@@ -64,7 +64,7 @@ def main():
         manpage_dir = ""
 
         print("Installing binaries to %s" % color(15, bin_dir))
-        copy_files(binaries, bin_dir, 0o755)
+        copy_files(binaries, bin_dir, 0o755, dest_names=['dool'])
 
         print("Installing plugins  to %s" % color(15, plugin_dir))
         copy_files(plugins , plugin_dir, 0o644)
@@ -86,12 +86,12 @@ def color(num, mystr):
     return ret
 
 # Copy an array of files to a destination dir and chmod each file to mode
-def copy_files(files, dest_dir, mode):
+def copy_files(files, dest_dir, mode, dest_names=None):
     ok = os.makedirs(dest_dir, exist_ok=True)
 
     count = 0
-    for x in files:
-        basename  = os.path.basename(x)
+    for i, x in enumerate(files):
+        basename  = os.path.basename(x) if not dest_names else dest_names[i]
         dest_file = dest_dir + "/" + basename
         dest_file = dest_file.replace("//", "/")
 
