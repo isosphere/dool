@@ -1815,7 +1815,7 @@ def set_theme():
             'colors_hi' : (color['red'], color['magenta'], color['green'], color['blue'],
                           color['cyan'], color['darkgray'], color['darkred'], color['darkgreen']),
         }
-    # red means high, green means low
+    # red means high
     elif op.colorinvert:
         theme = {
             'title'     : color['darkblue'],
@@ -1834,7 +1834,7 @@ def set_theme():
             'unit_lo'   : color['gray'],
             'unit_hi'   : color['darkgray'],
             'colors_lo' : tuple(reversed((color['red'], color['darkred'], color['yellow'], color['cyan'],
-                          color['blue'], color['green'], color['darkgreen'], color['white']))),            
+                          color['blue'], color['white'], color['gray'], color['darkgray']))),            
         }
         theme['colors_hi'] = theme['colors_lo']
     else:
